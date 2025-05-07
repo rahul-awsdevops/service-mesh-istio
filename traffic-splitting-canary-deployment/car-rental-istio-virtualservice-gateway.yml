@@ -1,0 +1,81 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: car-rental-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 8080
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: car-rental-frontend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - car-rental-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: car-rental-frontend-service.default.svc.cluster.local
+        subset: v1
+      weight: 90
+    - destination:
+        host: car-rental-frontend-service.default.svc.cluster.local
+        subset: v2
+      weight: 10
+---      
+# Modified istio-ingressgateway Service (ClusterIP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+  labels:
+    app: istio-ingressgateway
+    istio: ingressgateway
+spec:
+  type: ClusterIP
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 8443
+    protocol: TCP
+  - name: status-port
+    port: 15021
+    targetPort: 15021
+    protocol: TCP
+---
+# Proxy Service for istio-ingressgateway (NodePort)
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-ingressgateway-proxy
+spec:
+  type: NodePort
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    nodePort: 30080

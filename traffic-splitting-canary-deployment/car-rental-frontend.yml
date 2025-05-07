@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: car-rental-frontend #nameofdeployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: car-rental-frontend #matchlabelforpod
+      version: v1
+  template: 
+    metadata:
+      labels: 
+        app: car-rental-frontend #labelforpod
+        version: v1
+    spec: 
+      containers:
+        - name: nginx-reverse-proxy-container
+          image: 676206914267.dkr.ecr.us-east-1.amazonaws.com/techcloud-academy-frontend-apps-nginx-proxy:adec382  # Docker image with Nginx reverse proxy
+          ports:
+            - containerPort: 80  # Exposes port 80 for reverse proxy
+          env:
+              - name: NEXTJS_APP_URL
+                value: "localhost"
+              - name: NEXTJS_APP_PORT
+                value: "3000"
+              - name: API_BACKEND_URL
+                value: "car-rental-backend-service"
+              - name: API_BACKEND_PORT
+                value: "4000"
+        - name: car-rental-frontend-container
+          image: 676206914267.dkr.ecr.us-east-1.amazonaws.com/techcloud-academy-frontend-apps:adec382
+          ports:
+            - containerPort: 3000 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-rental-frontend-service
+spec:
+  type: ClusterIP #if you dont mention this type then default will be main ClusterIP
+  selector:
+    app: car-rental-frontend #labelofpodsshouldmatch
+  ports:
+    - protocol: TCP
+      port: 80 #serviceport
+      targetPort: 80 #containerPort from pod yml  

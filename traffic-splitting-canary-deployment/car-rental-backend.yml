@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: car-rental-backend #nameofdeployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: car-rental-backend #matchlabelforpod
+  template: 
+    metadata:
+      labels: 
+        app: car-rental-backend #labelforpod
+    spec: 
+      containers:
+        - name: car-rental-backend-container
+          image: 676206914267.dkr.ecr.us-east-1.amazonaws.com/techcloud-academy-backend-apps:adec382
+          ports:
+            - containerPort: 4000 #default-port-pgadmin
+
+          env:
+            - name: DB_USER
+              value: "dbadmin"
+              
+            - name: DB_PASSWORD
+              value: "dbadmin123"
+
+            - name: DB_NAME
+              value: "car_rental_database"  # This is the name of the database inside PostgreSQL
+
+            - name: DB_HOST
+              value: "rds-postgres-external-service"  # RDS instance endpoint will also be listed in rds-postgres-external-nameservice
+
+            - name: DB_PORT
+              value: "5432"  # Default PostgreSQL port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-rental-backend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: car-rental-backend #labelofpodsshouldmatch
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
