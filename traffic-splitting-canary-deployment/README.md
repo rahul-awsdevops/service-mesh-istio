@@ -510,9 +510,8 @@ The `v1` and `v2` frontends differ primarily in the presence of the `/about` pag
 - **Image**: `676206914267.dkr.ecr.us-east-1.amazonaws.com/techcloud-academy-frontend-apps:adec382`
 - **Description**: The `v1` frontend provides the core car rental application (e.g., homepage, booking functionality) but lacks an `/about` page. Accessing `http://car-rental-app-173958972.us-east-1.elb.amazonaws.com/about` returns a 404 error.
 - **Expected Screenshot**:
-  - Likely shows the homepage (`/`) with a title like "Ally's Auto Rentals," booking options, and a clean, modern UI with a blue and yellow gradient.
-  - Path: `[Insert path to v1 screenshot, e.g., ~/Desktop/v1-homepage.png]`
-  - Placeholder: `[Insert v1 Screenshot here]` (e.g., upload to GitHub/Imgur and link: `![v1 Homepage](<URL>)`).
+### 🖥️ Version1
+![About Page](./screenshots/car-rental-version-1.png)
 
 ### `v2` Frontend
 - **Image**: `676206914267.dkr.ecr.us-east-1.amazonaws.com/techcloud-academy-frontend-apps:new-features-about-page-d831d54`
@@ -522,27 +521,8 @@ The `v1` and `v2` frontends differ primarily in the presence of the `/about` pag
   - Features: Cards for "Diverse Fleet," "Easy Booking," and "24/7 Support" with icons and colored backgrounds (blue, orange, yellow).
   - Call to Action: "Book Your Car Now" button.
 - **Expected Screenshot**:
-  - Shows the `/about` page with the above elements, accessed via `http://car-rental-app-173958972.us-east-1.elb.amazonaws.com/about`.
-  - Path: `[Insert path to v2 screenshot, e.g., ~/Desktop/v2-about.png]`
-  - Placeholder: `[Insert v2 screenshot here]` (e.g., `![v2 About Page](<URL>)`).
-
-### Including Screenshots
-To include screenshots in the final document:
-1. **Markdown Viewers (e.g., GitHub, VS Code)**:
-   - Upload images to a public host (e.g., GitHub repository, Imgur).
-   - Add Markdown links:
-     ```markdown
-     ![v1 Homepage](https://example.com/v1-homepage.png)
-     ![v2 About Page](https://example.com/v2-about.png)
-     ```
-2. **Word/PDF**:
-   - Insert images directly at the placeholders `[Insert v1 screenshot here]` and `[Insert v2 screenshot here]`.
-   - Use file paths (e.g., `~/Desktop/v1-homepage.png`) in your document editor.
-3. **Local Markdown**:
-   - Reference local files (limited compatibility):
-     ```markdown
-     ![v1 Homepage](file:///Users/rahulranjan/Desktop/v1-homepage.png)
-     ```
+### 🖥️ Version2
+![About Page](./screenshots/car-rental-version-2.png)
 
 ## Step 8: Traffic Flow Explanation
 Traffic flows from the client to the application pods as follows:
@@ -732,22 +712,3 @@ eksctl delete cluster --name helm-eks-cluster
 
 ## Conclusion
 This setup demonstrated EKS cluster creation, Istio deployment, and a canary deployment with 90/10 traffic splitting. Screenshots of `v1` and `v2` provide visual confirmation of the differences, validated by traffic split tests (100% `v2`: 100/100 hits; 90/10: 9/100 hits).
-
-
----
-
-### Guidance on Screenshots
-Since you have the screenshot paths:
-1. **Share Paths**: Provide the file paths (e.g., `~/Desktop/v1-homepage.png`, `~/Desktop/v2-about.png`) and describe what each shows (e.g., UI elements, colors, text).
-2. **Upload Images**: Upload to a public host (e.g., GitHub repository, Imgur) and share URLs. I can update the Markdown with:
-   ```markdown
-   ![v1 Homepage](https://example.com/v1-homepage.png)
-   ![v2 About Page](https://example.com/v2-about.png)
-   ```
-3. **Local Document**: If compiling locally (e.g., Word, PDF), insert images at the placeholders using the file paths.
-
-### Assumptions
-- `v1` Screenshot: Likely the homepage (`/`) with booking features, no `/about` page.
-- `v2` Screenshot: The `/about` page with "Our Story," feature cards, and a booking button, as described in the HTML output.
-
-Please provide the screenshot paths and descriptions, or confirm if the placeholders are sufficient. I can further refine the notes if needed!
